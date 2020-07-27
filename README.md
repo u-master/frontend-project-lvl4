@@ -4,3 +4,5 @@
 # Chat
 
 SLACK-like chat
+
+[Try on Heroku!](https://slack-u-master.herokuapp.com/)
