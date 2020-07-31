@@ -10,11 +10,9 @@ const container = document.querySelector('.container');
 export default (data) => {
   const { channels } = data;
   const app = (
-    <div className="row">
-      <div className="col-3 border-right">
-        <ChannelsList channels={channels} />
-      </div>
-      <div className="col d-flex flex-column h-100">
+    <div className="row h-100 pb-4">
+      <ChannelsList channels={channels} className="col-3 border-right" />
+      <div className="col d-flex flex-column justify-content-between h-100">
         <Chat caption="Chat Here!" />
         <MessageForm />
       </div>
