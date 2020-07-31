@@ -1,0 +1,16 @@
+
+
+
+user
+    id
+    nickname
+
+channels
+    -array
+        id
+        name
+        removable
+
+currentChannelId
+
+messages
