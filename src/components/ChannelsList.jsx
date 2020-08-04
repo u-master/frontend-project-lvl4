@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import cn from 'classnames';
 
 import { addChannel as _addChannel } from '../features/channels/channelsSlice';
 import { setCurrentChannelId as _setCurrentChannelId } from '../features/channels/currentChannelIdSlice';
@@ -19,8 +20,8 @@ const ChannelsList = (props) => {
     className,
   } = props;
 
-  const handleChooseChannel = (e) => {
-    setCurrentChannelId({ id: e.target.value });
+  const handleChooseChannel = (id) => () => {
+    setCurrentChannelId({ id });
   };
 
   if (channels.length === 0) return null;
@@ -31,18 +32,19 @@ const ChannelsList = (props) => {
         <button className="btn btn-link p-0" type="button">+</button>
       </div>
       <ul className="nav nav-pills nav-fill flex-column">
-        {channels.map(({ id, name }) => (
-          <li key={id} className="nav-item">
-            <button
-              type="button"
-              className={`nav-link btn w-100${`${id}` === `${currentChannelId}` ? ' active' : ''}`}
-              value={id}
-              onClick={handleChooseChannel}
-            >
-              {name}
-            </button>
-          </li>
-        ))}
+        {channels.map(({ id, name }) => {
+          const btnClasses = cn({
+            'nav-link btn w-100': true,
+            active: (id === currentChannelId),
+          });
+          return (
+            <li key={id} className="nav-item">
+              <button type="button" className={btnClasses} onClick={handleChooseChannel(id)}>
+                {name}
+              </button>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
