@@ -19,11 +19,11 @@ const MessageForm = ({ currentChannelId }) => {
     e.preventDefault();
     const url = routes.channelMessagesPath(currentChannelId);
     setProcess('pending');
+    setFeedback('');
     axios
       .post(url, { data: { attributes: { text, username } } }, { timeout: 5000 })
       .then(() => {
         setText('');
-        setFeedback('');
         setProcess('fulfilled');
       })
       .catch((error) => {

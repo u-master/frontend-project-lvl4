@@ -4,20 +4,20 @@ import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import Cookies from 'js-cookie';
 import faker from 'faker';
+import io from 'socket.io-client';
 
-import ChannelsList from './components/ChannelsList';
-import Chat from './components/Сhat';
-import MessageForm from './components/MessageForm';
+import Chat from './components/Chat';
 
 import reducer from './reducer';
+import { addMessage } from './features/messages/messagesSlice';
 
 import UserContext from './features/user/userContext';
 
 const getUsername = () => Cookies.get('username');
 const setUsername = (newName) => Cookies.set('username', newName);
 
-export default (data) => {
-  const { channels, currentChannelId } = data;
+export default (gon) => {
+  const { channels, currentChannelId, messages } = gon;
   const container = document.querySelector('.container');
 
   const username = getUsername() || faker.name.findName();
@@ -27,21 +27,24 @@ export default (data) => {
     reducer,
     devTools: true,
     preloadedState: {
-      channels,
+      channels: [...channels],
       currentChannelId,
+      messages: [...messages],
     },
+  });
+
+  const socket = io({
+    transports: ['websocket'],
+  });
+
+  socket.on('newMessage', ({ data: { attributes } }) => {
+    store.dispatch(addMessage(attributes));
   });
 
   const app = (
     <Provider store={store}>
       <UserContext.Provider value={{ username }}>
-        <div className="row h-100 pb-4">
-          <ChannelsList channels={channels} className="col-3 border-right" />
-          <div className="col d-flex flex-column justify-content-between h-100">
-            <Chat caption="Chat Here!" />
-            <MessageForm />
-          </div>
-        </div>
+        <Chat />
       </UserContext.Provider>
     </Provider>
   );
