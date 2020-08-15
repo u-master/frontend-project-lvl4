@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
-import { Modal, FormGroup, Button } from 'react-bootstrap';
+import {
+  Modal,
+  FormGroup,
+  Button,
+} from 'react-bootstrap';
 import axios from 'axios';
 
 import routes from '../../routes';
