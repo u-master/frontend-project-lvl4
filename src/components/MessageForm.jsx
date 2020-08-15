@@ -45,7 +45,7 @@ const MessageForm = ({ currentChannelId }) => {
   };
 
   const inputClasses = cn({
-    'w-100': true,
+    'w-100 form-control': true,
     'is-invalid': process === 'rejected',
   });
 
