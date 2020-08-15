@@ -10,6 +10,7 @@ import Chat from './components/Chat';
 
 import reducer from './reducer';
 import { addMessage } from './features/messages/messagesSlice';
+import { addChannel, removeChannel, renameChannel } from './features/channels/channelsSlice';
 
 import UserContext from './features/user/userContext';
 
@@ -39,6 +40,15 @@ export default (gon) => {
 
   socket.on('newMessage', ({ data: { attributes } }) => {
     store.dispatch(addMessage(attributes));
+  });
+  socket.on('newChannel', ({ data: { attributes } }) => {
+    store.dispatch(addChannel(attributes));
+  });
+  socket.on('removeChannel', ({ data: { id } }) => {
+    store.dispatch(removeChannel({ id }));
+  });
+  socket.on('renameChannel', ({ data: { attributes } }) => {
+    store.dispatch(renameChannel(attributes));
   });
 
   const app = (
