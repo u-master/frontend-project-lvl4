@@ -8,7 +8,7 @@ const mapStateToProps = ({ messages, currentChannelId }) => ({
 const Messages = (props) => {
   const { messages } = props;
   return (
-    <ul className="list-unstyled">
+    <ul className="list-unstyled overflow-auto text-wrap text-break">
       {messages.map(({ id, username, text }) => (
         <li key={id}>
           <b>
