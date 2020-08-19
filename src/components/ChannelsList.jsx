@@ -49,7 +49,7 @@ const ChannelsList = (props) => {
       <Nav fill variant="pills" className="flex-column" activeKey={currentChannelId}>
         {channels.map(({ id, name, removable }) => (
           <Nav.Item key={id} className="btn-group p-1">
-            <Nav.Link href={`#${name}`} className="btn w-100" eventKey={id} onSelect={handleChooseChannel(id)}>
+            <Nav.Link as="button" className="btn w-100" eventKey={id} onSelect={handleChooseChannel(id)}>
               {name}
             </Nav.Link>
             {removable && (
