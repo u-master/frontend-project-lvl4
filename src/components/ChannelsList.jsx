@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { ButtonGroup, Button, Nav } from 'react-bootstrap';
-import cn from 'classnames';
 
 import { setCurrentChannelId as _setCurrentChannelId } from '../features/channels/currentChannelIdSlice';
 
