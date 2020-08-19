@@ -47,30 +47,24 @@ const ChannelsList = (props) => {
         <h6>Channels</h6>
         <Button variant="link" className="p-0" onClick={handleModalAppear('addChannel')}>+</Button>
       </div>
-      <Nav variant="pills" className="flex-column" activeKey={currentChannelId}>
-        {channels.map(({ id, name, removable }) => {
-          const btnClasses = cn({
-            'w-80': removable,
-            'w-100': !removable,
-          });
-          return (
-            <Nav.Item key={id} className="p-1">
-              <Nav.Link href={`#${name}`} eventKey={id} className={btnClasses} onSelect={handleChooseChannel(id)}>
-                {name}
-              </Nav.Link>
-              {removable && (
-                <ButtonGroup vertical size="sm" className="w-20">
-                  <Button variant="danger" onClick={handleModalAppear('removeChannel', { id })}>
-                    Remove
-                  </Button>
-                  <Button variant="secondary" onClick={handleModalAppear('renameChannel', { id, name })}>
-                    Rename
-                  </Button>
-                </ButtonGroup>
-              )}
-            </Nav.Item>
-          );
-        })}
+      <Nav fill variant="pills" className="flex-column" activeKey={currentChannelId}>
+        {channels.map(({ id, name, removable }) => (
+          <Nav.Item key={id} className="btn-group p-1">
+            <Nav.Link href={`#${name}`} className="btn w-100" eventKey={id} onSelect={handleChooseChannel(id)}>
+              {name}
+            </Nav.Link>
+            {removable && (
+              <ButtonGroup vertical size="sm">
+                <Button variant="danger" onClick={handleModalAppear('removeChannel', { id })}>
+                  Remove
+                </Button>
+                <Button variant="secondary" onClick={handleModalAppear('renameChannel', { id, name })}>
+                  Rename
+                </Button>
+              </ButtonGroup>
+            )}
+          </Nav.Item>
+        ))}
       </Nav>
       {renderModal(modal)}
     </>
