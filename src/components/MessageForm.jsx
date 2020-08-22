@@ -4,8 +4,9 @@ import React, {
   useEffect,
   useRef,
 } from 'react';
+import { Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import cn from 'classnames';
+import { useFormik } from 'formik';
 import axios from 'axios';
 
 import routes from '../routes';
@@ -15,53 +16,50 @@ import UserContext from '../features/user/userContext';
 const mapStateToProps = ({ currentChannelId }) => ({ currentChannelId });
 
 const MessageForm = ({ currentChannelId }) => {
-  const [text, setText] = useState('');
   const [process, setProcess] = useState('idle');
-  const [feedback, setFeedback] = useState('');
   const { username } = useContext(UserContext);
   const inputMessage = useRef();
 
   useEffect(() => { inputMessage.current.focus(); });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const url = routes.channelMessagesPath(currentChannelId);
-    setProcess('pending');
-    setFeedback('');
-    axios
-      .post(url, { data: { attributes: { text, username } } }, { timeout: 5000 })
-      .then(() => {
-        setText('');
-        setProcess('fulfilled');
-      })
-      .catch((error) => {
-        setProcess('rejected');
-        setFeedback(`${error.name}: ${error.message}`);
-      });
-  };
-
-  const handleChange = ({ target: { value } }) => {
-    setText(value);
-  };
-
-  const inputClasses = cn({
-    'w-100 form-control': true,
-    'is-invalid': process === 'rejected',
+  const formik = useFormik({
+    initialValues: {
+      message: '',
+      feedback: '',
+    },
+    onSubmit: ({ message }, { resetForm, setFieldValue }) => {
+      const url = routes.channelMessagesPath(currentChannelId);
+      setProcess('pending');
+      axios
+        .post(url, { data: { attributes: { message, username } } }, { timeout: 5000 })
+        .then(() => {
+          resetForm();
+          setProcess('fulfilled');
+        })
+        .catch((error) => {
+          setProcess('rejected');
+          setFieldValue('feedback', `${error.name}: ${error.message}`);
+        });
+    },
   });
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        className={inputClasses}
+    <Form onSubmit={formik.handleSubmit}>
+      <Form.Control
+        className="w-100"
+        isInvalid={process === 'rejected'}
         name="message"
         type="text"
-        onChange={handleChange}
-        value={text}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        value={formik.values.message}
         disabled={process === 'pending'}
         ref={inputMessage}
       />
-      <div className="d-block invalid-feedback">{feedback}</div>
-    </form>
+      <Form.Control.Feedback className="d-block" type="invalid">
+        {formik.values.feedback}
+      </Form.Control.Feedback>
+    </Form>
   );
 };
 

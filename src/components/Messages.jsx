@@ -1,4 +1,5 @@
 import React from 'react';
+import { ListGroup } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 const mapStateToProps = ({ messages, currentChannelId }) => ({
@@ -8,17 +9,17 @@ const mapStateToProps = ({ messages, currentChannelId }) => ({
 const Messages = (props) => {
   const { messages } = props;
   return (
-    <ul className="list-unstyled overflow-auto text-wrap text-break">
-      {messages.map(({ id, username, text }) => (
-        <li key={id}>
+    <ListGroup variant="flush" className="overflow-auto text-wrap text-break">
+      {messages.map(({ id, username, message }) => (
+        <ListGroup.Item key={id}>
           <b>
             {username}
             :
           </b>
-          {` ${text}`}
-        </li>
+          {` ${message}`}
+        </ListGroup.Item>
       ))}
-    </ul>
+    </ListGroup>
   );
 };
 
