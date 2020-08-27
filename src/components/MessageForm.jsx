@@ -11,13 +11,15 @@ import axios from 'axios';
 
 import routes from '../routes';
 
-import UserContext from '../features/user/userContext';
+import UserContext from '../contexts/userContext';
+// import StoreContext from '../contexts/storeContext';
 
 const mapStateToProps = ({ currentChannelId }) => ({ currentChannelId });
 
 const MessageForm = ({ currentChannelId }) => {
   const [process, setProcess] = useState('idle');
   const { username } = useContext(UserContext);
+  // const { currentChannelId } = useContext(StoreContext);
   const inputMessage = useRef();
 
   useEffect(() => { inputMessage.current.focus(); });
@@ -64,3 +66,5 @@ const MessageForm = ({ currentChannelId }) => {
 };
 
 export default connect(mapStateToProps)(MessageForm);
+
+// export default MessageForm;

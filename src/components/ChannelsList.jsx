@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import React, { useState, useContext } from 'react';
+// import { connect } from 'react-redux';
 import { ButtonGroup, Button, Nav } from 'react-bootstrap';
 
-import { setCurrentChannelId as _setCurrentChannelId } from '../features/channels/currentChannelIdSlice';
+import { setCurrentChannelId } from '../slices/currentChannelIdSlice';
+import StoreContext from '../contexts/storeContext';
 
 import getModal from './modals';
 
-const mapStateToProps = ({ channels, currentChannelId }) => ({ channels, currentChannelId });
+// const mapStateToProps = ({ channels, currentChannelId }) => ({ channels, currentChannelId });
 
-const mapDispatch = {
-  setCurrentChannelId: _setCurrentChannelId,
-};
+// const mapDispatch = {
+//   setCurrentChannelId: _setCurrentChannelId,
+// };
 
 const renderModal = ({ type, modalData }) => {
   if (type === 'none') return null;
@@ -18,21 +19,22 @@ const renderModal = ({ type, modalData }) => {
   return <Modal modalData={modalData} />;
 };
 
-const ChannelsList = (props) => {
-  const {
-    channels,
-    currentChannelId,
-    setCurrentChannelId,
-  } = props;
-
+const ChannelsList = () => {
+  // const {
+  //   channels,
+  //   currentChannelId,
+  //   setCurrentChannelId,
+  // } = props;
+  console.log('draw');
+  const { channels, currentChannelId, dispatch } = useContext(StoreContext);
   const [modal, setModal] = useState({ type: 'none' });
+
+  const handleChooseChannel = (id) => () => {
+    dispatch(setCurrentChannelId({ id }));
+  };
 
   const handleCloseModal = () => {
     setModal({ type: 'none' });
-  };
-
-  const handleChooseChannel = (id) => () => {
-    setCurrentChannelId({ id });
   };
 
   const handleModalAppear = (type, data) => () => {
@@ -70,4 +72,6 @@ const ChannelsList = (props) => {
   );
 };
 
-export default connect(mapStateToProps, mapDispatch)(ChannelsList);
+// export default connect(mapStateToProps, mapDispatch)(ChannelsList);
+
+export default ChannelsList;

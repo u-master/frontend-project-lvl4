@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { configureStore } from '@reduxjs/toolkit';
-import { Provider } from 'react-redux';
+// import { Provider } from 'react-redux';
 import Cookies from 'js-cookie';
 import faker from 'faker';
 import io from 'socket.io-client';
@@ -9,10 +9,11 @@ import io from 'socket.io-client';
 import Chat from './components/Chat';
 
 import reducer from './reducer';
-import { addMessage } from './features/messages/messagesSlice';
-import { addChannel, removeChannel, renameChannel } from './features/channels/channelsSlice';
+import { addMessage } from './slices/messagesSlice';
+import { addChannel, removeChannel, renameChannel } from './slices/channelsSlice';
 
-import UserContext from './features/user/userContext';
+import UserContext from './contexts/userContext';
+import StoreContext from './contexts/storeContext';
 
 const getUsername = () => Cookies.get('username');
 const setUsername = (newName) => Cookies.set('username', newName);
@@ -34,6 +35,8 @@ export default (gon) => {
     },
   });
 
+  // console.log(store);
+
   const socket = io({
     transports: ['websocket'],
   });
@@ -52,11 +55,11 @@ export default (gon) => {
   });
 
   const app = (
-    <Provider store={store}>
+    <StoreContext.Provider value={{ ...store.getState(), dispatch: store.dispatch }}>
       <UserContext.Provider value={{ username }}>
         <Chat />
       </UserContext.Provider>
-    </Provider>
+    </StoreContext.Provider>
   );
   ReactDOM.render(app, container);
 };
