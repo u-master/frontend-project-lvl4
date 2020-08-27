@@ -1,17 +1,17 @@
-import React, { useState, useContext } from 'react';
-// import { connect } from 'react-redux';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import { ButtonGroup, Button, Nav } from 'react-bootstrap';
 
-import { setCurrentChannelId } from '../slices/currentChannelIdSlice';
-import StoreContext from '../contexts/storeContext';
+import { setCurrentChannelId as _setCurrentChannelId } from '../slices/currentChannelIdSlice';
+// import StoreContext from '../contexts/storeContext';
 
 import getModal from './modals';
 
-// const mapStateToProps = ({ channels, currentChannelId }) => ({ channels, currentChannelId });
+const mapStateToProps = ({ channels, currentChannelId }) => ({ channels, currentChannelId });
 
-// const mapDispatch = {
-//   setCurrentChannelId: _setCurrentChannelId,
-// };
+const mapDispatch = {
+  setCurrentChannelId: _setCurrentChannelId,
+};
 
 const renderModal = ({ type, modalData }) => {
   if (type === 'none') return null;
@@ -19,18 +19,18 @@ const renderModal = ({ type, modalData }) => {
   return <Modal modalData={modalData} />;
 };
 
-const ChannelsList = () => {
-  // const {
-  //   channels,
-  //   currentChannelId,
-  //   setCurrentChannelId,
-  // } = props;
+const ChannelsList = (props) => {
+  const {
+    channels,
+    currentChannelId,
+    setCurrentChannelId,
+  } = props;
   console.log('draw');
-  const { channels, currentChannelId, dispatch } = useContext(StoreContext);
+  // const { channels, currentChannelId, dispatch } = useContext(StoreContext);
   const [modal, setModal] = useState({ type: 'none' });
 
   const handleChooseChannel = (id) => () => {
-    dispatch(setCurrentChannelId({ id }));
+    setCurrentChannelId({ id });
   };
 
   const handleCloseModal = () => {
@@ -72,6 +72,6 @@ const ChannelsList = () => {
   );
 };
 
-// export default connect(mapStateToProps, mapDispatch)(ChannelsList);
+export default connect(mapStateToProps, mapDispatch)(ChannelsList);
 
-export default ChannelsList;
+// export default ChannelsList;

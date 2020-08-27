@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { configureStore } from '@reduxjs/toolkit';
-// import { Provider } from 'react-redux';
+import { Provider } from 'react-redux';
 import Cookies from 'js-cookie';
 import faker from 'faker';
 import io from 'socket.io-client';
@@ -13,7 +13,7 @@ import { addMessage } from './slices/messagesSlice';
 import { addChannel, removeChannel, renameChannel } from './slices/channelsSlice';
 
 import UserContext from './contexts/userContext';
-import StoreContext from './contexts/storeContext';
+// import StoreContext from './contexts/storeContext';
 
 const getUsername = () => Cookies.get('username');
 const setUsername = (newName) => Cookies.set('username', newName);
@@ -35,8 +35,6 @@ export default (gon) => {
     },
   });
 
-  // console.log(store);
-
   const socket = io({
     transports: ['websocket'],
   });
@@ -55,11 +53,11 @@ export default (gon) => {
   });
 
   const app = (
-    <StoreContext.Provider value={{ ...store.getState(), dispatch: store.dispatch }}>
+    <Provider store={store}>
       <UserContext.Provider value={{ username }}>
         <Chat />
       </UserContext.Provider>
-    </StoreContext.Provider>
+    </Provider>
   );
   ReactDOM.render(app, container);
 };
