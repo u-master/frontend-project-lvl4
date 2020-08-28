@@ -11,7 +11,7 @@ import axios from 'axios';
 
 import routes from '../routes';
 
-import UserContext from '../contexts/userContext';
+import UserContext from '../userContext';
 
 const MessageForm = () => {
   const [process, setProcess] = useState('idle');
@@ -26,7 +26,12 @@ const MessageForm = () => {
       message: '',
       feedback: '',
     },
-    onSubmit: ({ message }, { resetForm, setFieldValue }) => {
+    onSubmit: ({ message }, { resetForm, setFieldValue, setSubmitting }) => {
+      if (message.trim() === '') {
+        resetForm();
+        setSubmitting(false);
+        return;
+      }
       const url = routes.channelMessagesPath(currentChannelId);
       setProcess('pending');
       axios

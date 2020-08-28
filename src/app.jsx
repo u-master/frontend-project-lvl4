@@ -9,11 +9,11 @@ import io from 'socket.io-client';
 import Chat from './components/Chat';
 
 import reducer from './reducer';
-import { addMessage } from './slices/messagesSlice';
+import { addMessage, removeMessagesOfChannel } from './slices/messagesSlice';
 import { addChannel, removeChannel, renameChannel } from './slices/channelsSlice';
+import { setCurrentChannelId } from './slices/currentChannelIdSlice';
 
-import UserContext from './contexts/userContext';
-// import StoreContext from './contexts/storeContext';
+import UserContext from './userContext';
 
 const getUsername = () => Cookies.get('username');
 const setUsername = (newName) => Cookies.set('username', newName);
@@ -35,6 +35,8 @@ export default (gon) => {
     },
   });
 
+  const defaultChannelId = (channels[0] || [{ id: 0 }]).id;
+
   const socket = io({
     transports: ['websocket'],
   });
@@ -47,6 +49,10 @@ export default (gon) => {
   });
   socket.on('removeChannel', ({ data: { id } }) => {
     store.dispatch(removeChannel({ id }));
+    store.dispatch(removeMessagesOfChannel({ channelId: id }));
+    if (store.getState().currentChannelId === id) {
+      store.dispatch(setCurrentChannelId({ id: defaultChannelId }));
+    }
   });
   socket.on('renameChannel', ({ data: { attributes } }) => {
     store.dispatch(renameChannel(attributes));
