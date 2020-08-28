@@ -5,24 +5,21 @@ import React, {
   useRef,
 } from 'react';
 import { Form } from 'react-bootstrap';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import axios from 'axios';
 
 import routes from '../routes';
 
 import UserContext from '../contexts/userContext';
-// import StoreContext from '../contexts/storeContext';
 
-const mapStateToProps = ({ currentChannelId }) => ({ currentChannelId });
-
-const MessageForm = ({ currentChannelId }) => {
+const MessageForm = () => {
   const [process, setProcess] = useState('idle');
   const { username } = useContext(UserContext);
-  // const { currentChannelId } = useContext(StoreContext);
   const inputMessage = useRef();
+  const currentChannelId = useSelector((state) => state.currentChannelId);
 
-  useEffect(() => { inputMessage.current.focus(); });
+  useEffect(() => { inputMessage.current.focus(); }, null);
 
   const formik = useFormik({
     initialValues: {
@@ -65,6 +62,4 @@ const MessageForm = ({ currentChannelId }) => {
   );
 };
 
-export default connect(mapStateToProps)(MessageForm);
-
-// export default MessageForm;
+export default MessageForm;
