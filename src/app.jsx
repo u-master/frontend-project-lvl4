@@ -9,9 +9,9 @@ import io from 'socket.io-client';
 import Chat from './components/Chat';
 
 import reducer from './reducer';
-import { addMessage, removeMessagesOfChannel } from './slices/messagesSlice';
-import { addChannel, removeChannel, renameChannel } from './slices/channelsSlice';
-import { setCurrentChannelId } from './slices/currentChannelIdSlice';
+import { addMessage, removeMessagesOfChannel } from './slices/messages';
+import { addChannel, removeChannel, renameChannel } from './slices/channels';
+import { setCurrentChannelId } from './slices/currentChannelId';
 
 import UserContext from './userContext';
 

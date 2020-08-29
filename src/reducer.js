@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 
-import channels from './slices/channelsSlice';
-import currentChannelId from './slices/currentChannelIdSlice';
-import messages from './slices/messagesSlice';
+import channels from './slices/channels';
+import currentChannelId from './slices/currentChannelId';
+import messages from './slices/messages';
 
 export default combineReducers({
   channels,
