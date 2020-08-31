@@ -19,7 +19,7 @@ const MessageForm = () => {
   const inputMessage = useRef();
   const currentChannelId = useSelector((state) => state.currentChannelId);
 
-  useEffect(() => { inputMessage.current.focus(); }, [currentChannelId]);
+  useEffect(() => { inputMessage.current.focus(); }, [currentChannelId, process]);
 
   const formik = useFormik({
     initialValues: {
@@ -44,7 +44,6 @@ const MessageForm = () => {
           setProcess('rejected');
           setFieldValue('feedback', `${error.name}: ${error.message}`);
         });
-      inputMessage.current.focus();
     },
   });
 
