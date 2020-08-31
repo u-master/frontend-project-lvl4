@@ -44,6 +44,7 @@ const MessageForm = () => {
           setProcess('rejected');
           setFieldValue('feedback', `${error.name}: ${error.message}`);
         });
+      inputMessage.current.focus();
     },
   });
 
