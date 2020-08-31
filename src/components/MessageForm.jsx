@@ -19,7 +19,7 @@ const MessageForm = () => {
   const inputMessage = useRef();
   const currentChannelId = useSelector((state) => state.currentChannelId);
 
-  useEffect(() => { inputMessage.current.focus(); }, null);
+  useEffect(() => { inputMessage.current.focus(); }, [currentChannelId]);
 
   const formik = useFormik({
     initialValues: {
