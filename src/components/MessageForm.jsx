@@ -5,21 +5,23 @@ import React, {
   useRef,
 } from 'react';
 import { Form } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import axios from 'axios';
 
 import routes from '../routes';
 
 import UserContext from '../userContext';
+import { setDraft } from '../slices/drafts';
 
 const MessageForm = () => {
   const [process, setProcess] = useState('idle');
   const { username } = useContext(UserContext);
   const inputMessage = useRef();
   const currentChannelId = useSelector((state) => state.currentChannelId);
+  const draft = useSelector((state) => (state.drafts[currentChannelId] || ''));
 
-  useEffect(() => { inputMessage.current.focus(); }, [currentChannelId, process]);
+  const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -46,6 +48,18 @@ const MessageForm = () => {
         });
     },
   });
+
+  useEffect(() => {
+    const channelId = currentChannelId;
+    formik.setFieldValue('message', draft);
+    inputMessage.current.focus();
+    return () => {
+      const message = inputMessage.current.value;
+      dispatch(setDraft({ channelId, message }));
+    };
+  }, [currentChannelId]);
+
+  useEffect(() => { inputMessage.current.focus(); }, [process]);
 
   return (
     <Form onSubmit={formik.handleSubmit}>

@@ -32,6 +32,7 @@ export default (gon) => {
       channels: [...channels],
       currentChannelId,
       messages: [...messages],
+      drafts: {},
     },
   });
 
