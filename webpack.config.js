@@ -39,6 +39,12 @@ module.exports = {
           { loader: 'sass-loader' },
         ],
       },
+      {
+        test: /favicon\.ico$/,
+        use: [
+          { loader: 'file-loader' },
+        ],
+      },
     ],
   },
 };
