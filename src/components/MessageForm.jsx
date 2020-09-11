@@ -13,13 +13,14 @@ import routes from '../routes';
 
 import UserContext from '../userContext';
 import { setDraft } from '../slices/drafts';
+import { currentChannelIdSelector, draftSelector } from '../selectors';
 
 const MessageForm = () => {
   const [process, setProcess] = useState('idle');
   const { username } = useContext(UserContext);
   const inputMessage = useRef();
-  const currentChannelId = useSelector((state) => state.currentChannelId);
-  const draft = useSelector((state) => (state.drafts[currentChannelId] || ''));
+  const currentChannelId = useSelector(currentChannelIdSelector);
+  const draft = useSelector(draftSelector);
 
   const dispatch = useDispatch();
 

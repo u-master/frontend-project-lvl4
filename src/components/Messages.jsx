@@ -2,12 +2,10 @@ import React from 'react';
 import { ListGroup } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 
+import { messagesSelector } from '../selectors';
+
 const Messages = () => {
-  const messages = useSelector(
-    (state) => (
-      state.messages.filter(({ channelId }) => (channelId === state.currentChannelId))
-    ),
-  );
+  const messages = useSelector(messagesSelector);
   return (
     <ListGroup variant="flush" className="overflow-auto text-wrap text-break">
       {messages.map(({ id, username, message }) => (

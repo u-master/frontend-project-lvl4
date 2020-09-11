@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { ButtonGroup, Button, Nav } from 'react-bootstrap';
 
 import { setCurrentChannelId } from '../slices/currentChannelId';
+import { channelsSelector, currentChannelIdSelector } from '../selectors';
 
 import getModal from './modals';
 
@@ -14,9 +15,9 @@ const renderModal = ({ type, modalData }) => {
 
 const ChannelsList = () => {
   const [modal, setModal] = useState({ type: 'none' });
-  const { channels, currentChannelId } = useSelector(
-    (state) => ({ channels: state.channels, currentChannelId: state.currentChannelId }),
-  );
+  const channels = useSelector(channelsSelector);
+  const currentChannelId = useSelector(currentChannelIdSelector);
+
   const dispatch = useDispatch();
 
   const handleChooseChannel = (id) => () => {
