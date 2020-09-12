@@ -8,13 +8,13 @@ import { channelsSelector, currentChannelIdSelector } from '../selectors';
 import getModal from './modals';
 
 const renderModal = ({ type, modalData }) => {
-  if (type === 'none') return null;
+  if (!type) return null;
   const Modal = getModal(type);
   return <Modal modalData={modalData} />;
 };
 
 const ChannelsList = () => {
-  const [modal, setModal] = useState({ type: 'none' });
+  const [modal, setModal] = useState({ type: null });
   const channels = useSelector(channelsSelector);
   const currentChannelId = useSelector(currentChannelIdSelector);
 
@@ -25,7 +25,7 @@ const ChannelsList = () => {
   };
 
   const handleCloseModal = () => {
-    setModal({ type: 'none' });
+    setModal({ type: null });
   };
 
   const handleModalAppear = (type, data) => () => {
