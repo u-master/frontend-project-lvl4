@@ -28,11 +28,10 @@ export default ({ modalData: { onClose } }) => {
           routes.channelsPath(),
           { data: { attributes: { name: values.channelName } } },
           { timeout: 5000 },
-        ).then(onClose)
-        .catch((error) => {
+        ).catch((error) => {
           setProcess('rejected');
           setFeedback(`${error.name}: ${error.message}`);
-        });
+        }).then(onClose);
     },
   });
 

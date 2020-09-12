@@ -18,11 +18,10 @@ export default ({ modalData: { id, onClose } }) => {
       .delete(
         routes.channelPath(id),
         { timeout: 5000 },
-      ).then(onClose)
-      .catch((error) => {
+      ).catch((error) => {
         setProcess('rejected');
         setFeedback(`${error.name}: ${error.message}`);
-      });
+      }).then(onClose);
   };
 
   return (

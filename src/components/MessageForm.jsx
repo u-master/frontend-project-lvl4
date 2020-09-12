@@ -39,13 +39,13 @@ const MessageForm = () => {
       setProcess('pending');
       axios
         .post(url, { data: { attributes: { message, username } } }, { timeout: 5000 })
-        .then(() => {
-          resetForm();
-          setProcess('fulfilled');
-        })
         .catch((error) => {
           setProcess('rejected');
           setFieldValue('feedback', `${error.name}: ${error.message}`);
+        })
+        .then(() => {
+          resetForm();
+          setProcess('fulfilled');
         });
     },
   });
