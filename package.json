@@ -91,6 +91,7 @@
     "file-loader": "^6.1.0",
     "jest": "^26.3.0",
     "jest-cli": "^26.3.0",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "prettier": "^2.1.1"
   }
 }
