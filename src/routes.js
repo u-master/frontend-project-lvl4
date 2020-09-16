@@ -1,10 +1,9 @@
 // @ts-check
 
 const host = '';
-const prefix = 'api/v1';
 
 export default {
-  channelsPath: () => [host, prefix, 'channels'].join('/'),
-  channelPath: (id) => [host, prefix, 'channels', id].join('/'),
-  channelMessagesPath: (id) => [host, prefix, 'channels', id, 'messages'].join('/'),
+  channelsPath: () => (`${host}/api/v1/channels`),
+  channelPath: (id) => (`${host}/api/v1/channels/${id}`),
+  channelMessagesPath: (id) => (`${host}/api/v1/channels/${id}/messages`),
 };
