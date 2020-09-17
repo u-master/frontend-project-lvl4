@@ -1,21 +1,21 @@
 import { createSelector } from 'reselect';
 
-const channelsSelector = ({ channels }) => (channels);
+const channelsSelector = ({ channels }) => channels;
 
-const currentChannelIdSelector = ({ currentChannelId }) => (currentChannelId);
+const currentChannelIdSelector = ({ currentChannelId }) => currentChannelId;
 
 const messagesSelector = createSelector(
-  ({ messages }) => (messages),
+  ({ messages }) => messages,
   currentChannelIdSelector,
   (messages, currentChannelId) => (
-    messages.filter(({ channelId }) => (channelId === currentChannelId))
+    messages.filter(({ channelId }) => channelId === currentChannelId)
   ),
 );
 
 const draftSelector = createSelector(
-  ({ drafts }) => (drafts),
+  ({ drafts }) => drafts,
   currentChannelIdSelector,
-  (drafts, currentChannelId) => (drafts[currentChannelId] || ''),
+  (drafts, currentChannelId) => drafts[currentChannelId] || '',
 );
 
 export {

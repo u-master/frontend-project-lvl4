@@ -37,12 +37,19 @@ const ChannelsList = () => {
     <>
       <div className="d-flex justify-content-between align-items-baseline mb-1">
         <h6>Channels</h6>
-        <Button variant="link" className="p-0" onClick={handleModalAppear('addChannel')}>+</Button>
+        <Button variant="link" className="p-0" onClick={handleModalAppear('addChannel')}>
+          +
+        </Button>
       </div>
       <Nav fill variant="pills" className="flex-column" activeKey={currentChannelId}>
         {channels.map(({ id, name, removable }) => (
           <Nav.Item key={id} className="btn-group p-1">
-            <Nav.Link as="button" className="btn w-100" eventKey={id} onSelect={handleChooseChannel(id)}>
+            <Nav.Link
+              as="button"
+              className="btn w-100"
+              eventKey={id}
+              onSelect={handleChooseChannel(id)}
+            >
               {name}
             </Nav.Link>
             {removable && (
@@ -50,7 +57,10 @@ const ChannelsList = () => {
                 <Button variant="danger" onClick={handleModalAppear('removeChannel', { id })}>
                   Remove
                 </Button>
-                <Button variant="secondary" onClick={handleModalAppear('renameChannel', { id, name })}>
+                <Button
+                  variant="secondary"
+                  onClick={handleModalAppear('renameChannel', { id, name })}
+                >
                   Rename
                 </Button>
               </ButtonGroup>

@@ -1,8 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useRef,
-} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Modal,
   FormGroup,
@@ -24,14 +20,12 @@ export default ({ modalData: { id, name, onClose } }) => {
     onSubmit: (values) => {
       setProcess('pending');
       axios
-        .patch(
-          routes.channelPath(id),
-          { data: { attributes: { name: values.channelName } } },
-          { timeout: 5000 },
-        ).catch((error) => {
+        .patch(routes.channelPath(id), { data: { attributes: { name: values.channelName } } })
+        .catch((error) => {
           setProcess('rejected');
           setFeedback(`${error.name}: ${error.message}`);
-        }).then(onClose);
+        })
+        .then(onClose);
     },
   });
 
@@ -40,14 +34,12 @@ export default ({ modalData: { id, name, onClose } }) => {
     inputChannel.current.select();
   }, []);
 
-  const isDisabled = (process === 'pending');
+  const isDisabled = process === 'pending';
 
   return (
     <Modal backdrop="static" show>
       <Modal.Header closeButton onHide={onClose}>
-        <Modal.Title>
-          Rename Channel
-        </Modal.Title>
+        <Modal.Title>Rename Channel</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <p>
@@ -69,8 +61,12 @@ export default ({ modalData: { id, name, onClose } }) => {
             />
             <div className="d-block invalid-feedback">{feedback}</div>
           </FormGroup>
-          <Button variant="primary" type="submit" className="mr-2" disabled={isDisabled}>Rename</Button>
-          <Button variant="secondary" onClick={onClose}>Cancel</Button>
+          <Button variant="primary" type="submit" className="mr-2" disabled={isDisabled}>
+            Rename
+          </Button>
+          <Button variant="secondary" onClick={onClose}>
+            Cancel
+          </Button>
         </form>
       </Modal.Body>
     </Modal>

@@ -1,8 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useRef,
-} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Modal,
   FormGroup,
@@ -24,14 +20,12 @@ export default ({ modalData: { onClose } }) => {
     onSubmit: (values) => {
       setProcess('pending');
       axios
-        .post(
-          routes.channelsPath(),
-          { data: { attributes: { name: values.channelName } } },
-          { timeout: 5000 },
-        ).catch((error) => {
+        .post(routes.channelsPath(), { data: { attributes: { name: values.channelName } } })
+        .catch((error) => {
           setProcess('rejected');
           setFeedback(`${error.name}: ${error.message}`);
-        }).then(onClose);
+        })
+        .then(onClose);
     },
   });
 
@@ -40,14 +34,12 @@ export default ({ modalData: { onClose } }) => {
     inputChannel.current.focus();
   }, []);
 
-  const isDisabled = (process === 'pending');
+  const isDisabled = process === 'pending';
 
   return (
     <Modal backdrop="static" show>
       <Modal.Header closeButton onHide={onClose}>
-        <Modal.Title>
-          Add Channel
-        </Modal.Title>
+        <Modal.Title>Add Channel</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <form onSubmit={formik.handleSubmit}>
@@ -64,8 +56,12 @@ export default ({ modalData: { onClose } }) => {
             />
             <div className="d-block invalid-feedback">{feedback}</div>
           </FormGroup>
-          <Button variant="primary" type="submit" className="mr-2" disabled={isDisabled}>Add</Button>
-          <Button variant="secondary" onClick={onClose}>Cancel</Button>
+          <Button variant="primary" type="submit" className="mr-2" disabled={isDisabled}>
+            Add
+          </Button>
+          <Button variant="secondary" onClick={onClose}>
+            Cancel
+          </Button>
         </form>
       </Modal.Body>
     </Modal>
