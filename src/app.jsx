@@ -36,7 +36,7 @@ export default (gon) => {
     },
   });
 
-  const defaultChannelId = (channels[0] || [{ id: 0 }]).id;
+  const defaultChannelId = channels[0]?.id ?? 0;
 
   const socket = io({
     transports: ['websocket'],

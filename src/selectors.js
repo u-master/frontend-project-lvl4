@@ -15,7 +15,7 @@ const messagesSelector = createSelector(
 const draftSelector = createSelector(
   ({ drafts }) => drafts,
   currentChannelIdSelector,
-  (drafts, currentChannelId) => drafts[currentChannelId] || '',
+  (drafts, currentChannelId) => drafts[currentChannelId] ?? '',
 );
 
 export {
