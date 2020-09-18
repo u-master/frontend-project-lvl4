@@ -38,7 +38,7 @@ const MessageForm = () => {
       const url = routes.channelMessagesPath(currentChannelId);
       setProcess('pending');
       axios
-        .post(url, { data: { attributes: { message, username } } }, { timeout: 5000 })
+        .post(url, { data: { attributes: { message, username } } })
         .catch((error) => {
           setProcess('rejected');
           setFieldValue('feedback', `${error.name}: ${error.message}`);
