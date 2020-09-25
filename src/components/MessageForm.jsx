@@ -12,12 +12,14 @@ import axios from 'axios';
 import routes from '../routes';
 
 import UserContext from '../userContext';
+import RollbarContext from '../rollbarContext';
 import { setDraft } from '../slices/drafts';
 import { currentChannelIdSelector, draftSelector } from '../selectors';
 
 const MessageForm = () => {
   const [process, setProcess] = useState('idle');
   const { username } = useContext(UserContext);
+  const { rollbar } = useContext(RollbarContext);
   const inputMessage = useRef();
   const currentChannelId = useSelector(currentChannelIdSelector);
   const draft = useSelector(draftSelector);
@@ -39,13 +41,14 @@ const MessageForm = () => {
       setProcess('pending');
       axios
         .post(url, { data: { attributes: { message, username } } })
-        .catch((error) => {
-          setProcess('rejected');
-          setFieldValue('feedback', `${error.name}: ${error.message}`);
-        })
         .then(() => {
           resetForm();
           setProcess('fulfilled');
+        })
+        .catch((error) => {
+          setProcess('rejected');
+          setFieldValue('feedback', `${error.name}: ${error.message}`);
+          rollbar.error(error);
         });
     },
   });

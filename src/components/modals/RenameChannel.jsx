@@ -1,4 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useContext,
+} from 'react';
 import {
   Modal,
   FormGroup,
@@ -10,9 +15,12 @@ import axios from 'axios';
 
 import routes from '../../routes';
 
+import RollbarContext from '../../rollbarContext';
+
 export default ({ modalData: { id, name, onClose } }) => {
   const [feedback, setFeedback] = useState('');
   const [process, setProcess] = useState('idle');
+  const { rollbar } = useContext(RollbarContext);
   const formik = useFormik({
     initialValues: {
       channelName: name,
@@ -21,11 +29,12 @@ export default ({ modalData: { id, name, onClose } }) => {
       setProcess('pending');
       axios
         .patch(routes.channelPath(id), { data: { attributes: { name: values.channelName } } })
+        .then(onClose)
         .catch((error) => {
           setProcess('rejected');
           setFeedback(`${error.name}: ${error.message}`);
-        })
-        .then(onClose);
+          rollbar.error(error);
+        });
     },
   });
 

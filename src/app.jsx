@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import Cookies from 'js-cookie';
 import faker from 'faker';
 import io from 'socket.io-client';
+import Rollbar from 'rollbar';
 
 import Chat from './components/Chat';
 
@@ -14,6 +15,7 @@ import { addChannel, removeChannel, renameChannel } from './slices/channels';
 import { setCurrentChannelId } from './slices/currentChannelId';
 
 import UserContext from './userContext';
+import RollbarContext from './rollbarContext';
 
 const getUsername = () => Cookies.get('username');
 const setUsername = (newName) => Cookies.set('username', newName);
@@ -59,10 +61,21 @@ export default (gon) => {
     store.dispatch(renameChannel(attributes));
   });
 
+  const rollbar = new Rollbar({
+    accessToken: '6e2700e7fadb44aeae4c40768b291bdb',
+    captureUncaught: true,
+    captureUnhandledRejections: true,
+    payload: {
+      person: { id: username }, // фи, конечно, но нет у нас id у user-а (((
+    },
+  });
+
   const app = (
     <Provider store={store}>
       <UserContext.Provider value={{ username }}>
-        <Chat />
+        <RollbarContext.Provider value={{ rollbar }}>
+          <Chat />
+        </RollbarContext.Provider>
       </UserContext.Provider>
     </Provider>
   );
