@@ -7,11 +7,13 @@ const channelsSlice = createSlice({
     addChannel(state, { payload: newChannel }) {
       state.push(newChannel);
     },
-    removeChannel(state, { payload: { id: removeId } }) {
-      return state.filter(({ id }) => id !== removeId);
+    removeChannel(state, { payload: { id: idRemove } }) {
+      return state.filter(({ id }) => id !== idRemove);
     },
     renameChannel(state, { payload: renamedChannel }) {
-      return state.map((channel) => (renamedChannel.id === channel.id ? renamedChannel : channel));
+      const channelIndex = state.findIndex(({ id }) => id === renamedChannel.id);
+      // eslint-disable-next-line no-param-reassign
+      state[channelIndex] = renamedChannel;
     },
   },
 });
