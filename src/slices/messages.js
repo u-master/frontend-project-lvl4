@@ -1,21 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { removeChannel } from './channels';
+
 const messagesSlice = createSlice({
   name: 'messages',
   initialState: [],
   reducers: {
-    addMessage(state, action) {
-      state.push(action.payload);
+    addMessage(state, { payload }) {
+      state.push(payload);
     },
-    removeMessagesOfChannel(state, action) {
-      return state.filter(({ channelId }) => channelId !== action.payload.channelId);
+  },
+  extraReducers: {
+    [removeChannel](state, { payload: { id } }) {
+      return state.filter(({ channelId }) => channelId !== id);
     },
   },
 });
 
-export const {
-  addMessage,
-  removeMessagesOfChannel,
-} = messagesSlice.actions;
+export const { addMessage } = messagesSlice.actions;
 
 export default messagesSlice.reducer;

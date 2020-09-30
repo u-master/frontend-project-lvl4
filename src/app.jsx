@@ -52,7 +52,7 @@ export default (gon) => {
   });
   socket.on('removeChannel', ({ data: { id } }) => {
     store.dispatch(removeChannel({ id }));
-    store.dispatch(removeMessagesOfChannel({ channelId: id }));
+    // store.dispatch(removeMessagesOfChannel({ channelId: id }));
     if (store.getState().currentChannelId === id) {
       store.dispatch(setCurrentChannelId({ id: defaultChannelId }));
     }
