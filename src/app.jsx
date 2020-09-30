@@ -10,7 +10,7 @@ import Rollbar from 'rollbar';
 import Chat from './components/Chat';
 
 import reducer from './reducer';
-import { addMessage, removeMessagesOfChannel } from './slices/messages';
+import { addMessage } from './slices/messages';
 import { addChannel, removeChannel, renameChannel } from './slices/channels';
 import { setCurrentChannelId } from './slices/currentChannelId';
 
@@ -38,8 +38,6 @@ export default (gon) => {
     },
   });
 
-  const defaultChannelId = channels[0]?.id ?? 0;
-
   const socket = io({
     transports: ['websocket'],
   });
@@ -52,9 +50,8 @@ export default (gon) => {
   });
   socket.on('removeChannel', ({ data: { id } }) => {
     store.dispatch(removeChannel({ id }));
-    // store.dispatch(removeMessagesOfChannel({ channelId: id }));
     if (store.getState().currentChannelId === id) {
-      store.dispatch(setCurrentChannelId({ id: defaultChannelId }));
+      store.dispatch(setCurrentChannelId({ id: 0 }));
     }
   });
   socket.on('renameChannel', ({ data: { attributes } }) => {
