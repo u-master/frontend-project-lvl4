@@ -12,7 +12,6 @@ import Chat from './components/Chat';
 import reducer from './reducer';
 import { addMessage } from './slices/messages';
 import { addChannel, removeChannel, renameChannel } from './slices/channels';
-import { setCurrentChannelId } from './slices/currentChannelId';
 
 import UserContext from './userContext';
 import RollbarContext from './rollbarContext';
@@ -50,9 +49,6 @@ export default (gon) => {
   });
   socket.on('removeChannel', ({ data: { id } }) => {
     store.dispatch(removeChannel({ id }));
-    if (store.getState().currentChannelId === id) {
-      store.dispatch(setCurrentChannelId({ id: 0 }));
-    }
   });
   socket.on('renameChannel', ({ data: { attributes } }) => {
     store.dispatch(renameChannel(attributes));
