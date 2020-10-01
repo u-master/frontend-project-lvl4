@@ -33,7 +33,7 @@ export default (gon) => {
       channels: {
         channelsItems: [...channels],
         currentChannelId,
-        defaultChannelId: channels[0],
+        defaultChannelId: channels[0].id,
       },
       messages: [...messages],
       drafts: {},
