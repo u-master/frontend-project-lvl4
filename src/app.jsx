@@ -30,8 +30,11 @@ export default (gon) => {
     reducer,
     devTools: true,
     preloadedState: {
-      channels: [...channels],
-      currentChannelId,
+      channels: {
+        channelsItems: [...channels],
+        currentChannelId,
+        defaultChannelId: channels[0].id,
+      },
       messages: [...messages],
       drafts: {},
     },
