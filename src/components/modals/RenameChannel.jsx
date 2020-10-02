@@ -1,9 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  useContext,
-} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Modal,
   FormGroup,
@@ -15,35 +10,26 @@ import axios from 'axios';
 
 import routes from '../../routes';
 
-import RollbarContext from '../../rollbarContext';
-
 export default ({ modalData: { id, name, onClose } }) => {
   const [feedback, setFeedback] = useState('');
-  const [process, setProcess] = useState('idle');
-  const { rollbar } = useContext(RollbarContext);
   const formik = useFormik({
     initialValues: {
       channelName: name,
     },
-    onSubmit: (values) => {
-      setProcess('pending');
+    onSubmit: (values) => (
       axios
         .patch(routes.channelPath(id), { data: { attributes: { name: values.channelName } } })
         .then(onClose)
         .catch((error) => {
-          setProcess('rejected');
           setFeedback(`${error.name}: ${error.message}`);
-          rollbar.error(error);
-        });
-    },
+        })
+    ),
   });
 
   const inputChannel = useRef();
   useEffect(() => {
     inputChannel.current.select();
   }, []);
-
-  const isDisabled = process === 'pending';
 
   return (
     <Modal backdrop="static" show>
@@ -59,18 +45,17 @@ export default ({ modalData: { id, name, onClose } }) => {
         <form onSubmit={formik.handleSubmit}>
           <FormGroup>
             <FormControl
-              className={process === 'rejected' ? 'is-invalid' : ''}
               value={formik.values.channelName}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               required
               ref={inputChannel}
               name="channelName"
-              disabled={isDisabled}
+              disabled={formik.isSubmitting}
             />
             <div className="d-block invalid-feedback">{feedback}</div>
           </FormGroup>
-          <Button variant="primary" type="submit" className="mr-2" disabled={isDisabled}>
+          <Button variant="primary" type="submit" className="mr-2" disabled={formik.isSubmitting}>
             Rename
           </Button>
           <Button variant="secondary" onClick={onClose}>

@@ -1,15 +1,12 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { Modal, FormGroup, Button } from 'react-bootstrap';
 import axios from 'axios';
 
 import routes from '../../routes';
 
-import RollbarContext from '../../rollbarContext';
-
 export default ({ modalData: { id, onClose } }) => {
   const [feedback, setFeedback] = useState('');
   const [process, setProcess] = useState('idle');
-  const { rollbar } = useContext(RollbarContext);
   const handleSubmit = (e) => {
     e.preventDefault();
     setProcess('pending');
@@ -17,9 +14,7 @@ export default ({ modalData: { id, onClose } }) => {
       .delete(routes.channelPath(id))
       .then(onClose)
       .catch((error) => {
-        setProcess('rejected');
         setFeedback(`${error.name}: ${error.message}`);
-        rollbar.error(error);
       });
   };
 
