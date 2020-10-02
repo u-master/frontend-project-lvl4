@@ -14,7 +14,6 @@ import { addMessage } from './slices/messages';
 import { addChannel, removeChannel, renameChannel } from './slices/channels';
 
 import UserContext from './userContext';
-import RollbarContext from './rollbarContext';
 
 const getUsername = () => Cookies.get('username');
 const setUsername = (newName) => Cookies.set('username', newName);
@@ -69,9 +68,7 @@ export default (gon) => {
   const app = (
     <Provider store={store}>
       <UserContext.Provider value={{ username }}>
-        <RollbarContext.Provider value={{ rollbar }}>
-          <Chat />
-        </RollbarContext.Provider>
+        <Chat rollbar={rollbar} />
       </UserContext.Provider>
     </Provider>
   );
