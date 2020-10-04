@@ -16,7 +16,7 @@ const MessageForm = () => {
   const inputMessage = useRef();
   const currentChannelId = useSelector(currentChannelIdSelector);
   const draft = useSelector(draftSelector);
-  const scheme = yup.object({ message: yup.string().trim().required() });
+  const schema = yup.object({ message: yup.string().trim().required() });
 
   const dispatch = useDispatch();
 
@@ -36,7 +36,7 @@ const MessageForm = () => {
           setFieldValue('feedback', `${error.name}: ${error.message}`);
         });
     },
-    validationSchema: scheme,
+    validationSchema: schema,
   });
 
   useEffect(() => {

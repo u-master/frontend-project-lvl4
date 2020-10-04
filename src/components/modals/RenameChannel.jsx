@@ -7,10 +7,12 @@ import {
 } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import axios from 'axios';
+import * as yup from 'yup';
 
 import routes from '../../routes';
 
 export default ({ modalData: { id, name, onClose } }) => {
+  const schema = yup.object({ channelName: yup.string().trim().required() });
   const [feedback, setFeedback] = useState('');
   const formik = useFormik({
     initialValues: {
@@ -24,6 +26,7 @@ export default ({ modalData: { id, name, onClose } }) => {
           setFeedback(`${error.name}: ${error.message}`);
         })
     ),
+    validationSchema: schema,
   });
 
   const inputChannel = useRef();
