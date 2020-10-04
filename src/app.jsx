@@ -29,8 +29,8 @@ export default (gon) => {
     reducer,
     devTools: true,
     preloadedState: {
-      channels: {
-        channelsItems: [...channels],
+      channelsInfo: {
+        channels: [...channels],
         currentChannelId,
       },
       messages: [...messages],

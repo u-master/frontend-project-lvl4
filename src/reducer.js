@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 
-import channels from './slices/channelsInfo';
+import channelsInfo from './slices/channelsInfo';
 import messages from './slices/messages';
 import drafts from './slices/drafts';
 
 export default combineReducers({
-  channels,
+  channelsInfo,
   messages,
   drafts,
 });

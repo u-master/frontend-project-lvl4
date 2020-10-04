@@ -1,8 +1,8 @@
 import { createSelector } from 'reselect';
 
-const channelsSelector = ({ channels: { channelsItems } }) => channelsItems;
+const channelsSelector = ({ channelsInfo: { channels } }) => channels;
 
-const currentChannelIdSelector = ({ channels: { currentChannelId } }) => currentChannelId;
+const currentChannelIdSelector = ({ channelsInfo: { currentChannelId } }) => currentChannelId;
 
 const messagesSelector = createSelector(
   ({ messages }) => messages,
