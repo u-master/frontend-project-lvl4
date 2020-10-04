@@ -3,6 +3,7 @@ import { Form } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import axios from 'axios';
+import * as yup from 'yup';
 
 import routes from '../routes';
 
@@ -15,6 +16,7 @@ const MessageForm = () => {
   const inputMessage = useRef();
   const currentChannelId = useSelector(currentChannelIdSelector);
   const draft = useSelector(draftSelector);
+  const scheme = yup.object({ message: yup.string().trim().required() });
 
   const dispatch = useDispatch();
 
@@ -34,11 +36,7 @@ const MessageForm = () => {
           setFieldValue('feedback', `${error.name}: ${error.message}`);
         });
     },
-    validate: ({ message }) => {
-      const error = {};
-      if (message.trim() === '') error.message = 'Required';
-      return error;
-    },
+    validationSchema: scheme,
   });
 
   useEffect(() => {
@@ -53,7 +51,7 @@ const MessageForm = () => {
 
   useEffect(() => {
     inputMessage.current.focus();
-  }, [process]);
+  }, [formik.isSubmitting]);
 
   return (
     <Form onSubmit={formik.handleSubmit}>
