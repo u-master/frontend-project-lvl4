@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { removeChannel } from './channels';
+import { removeChannel } from './channelsInfo';
 
 const messagesSlice = createSlice({
   name: 'messages',

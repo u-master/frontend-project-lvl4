@@ -11,7 +11,7 @@ import Chat from './components/Chat';
 
 import reducer from './reducer';
 import { addMessage } from './slices/messages';
-import { addChannel, removeChannel, renameChannel } from './slices/channels';
+import { addChannel, removeChannel, renameChannel } from './slices/channelsInfo';
 
 import UserContext from './userContext';
 
@@ -32,7 +32,6 @@ export default (gon) => {
       channels: {
         channelsItems: [...channels],
         currentChannelId,
-        defaultChannelId: channels[0].id,
       },
       messages: [...messages],
       drafts: {},

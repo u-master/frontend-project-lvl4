@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { ButtonGroup, Button, Nav } from 'react-bootstrap';
 
-import { setCurrentChannelId } from '../slices/channels';
+import { setCurrentChannelId } from '../slices/channelsInfo';
 import { channelsSelector, currentChannelIdSelector } from '../selectors';
 
 import getModal from './modals';
